@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// src/App.tsx
+import { useEffect, useState } from 'react';
+import { useAtom } from 'jotai';
+import { auth } from './firebase';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { userAtom } from './atoms/userAtom';
+import Login from './pages/Login';
+import Main from './pages/Main';
 
-function App() {
+export default function App(): JSX.Element {
+  const [user, setUser] = useAtom<User | null>(userAtom);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+
+    // コンポーネントがアンマウントされた時にリスナーを解除
+    return () => unsubscribe();
+  }, [setUser]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {user ? <Main /> : <Login />}
     </div>
   );
 }
-
-export default App;
