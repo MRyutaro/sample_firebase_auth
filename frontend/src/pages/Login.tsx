@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigateをインポート
-import { auth, provider } from '../firebase';
+import { auth, googleAuthProvider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { Button, Container, Typography, Box, Card } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -14,7 +14,7 @@ export default function Login(): JSX.Element {
 
     const handleGoogleLogin = async () => {
         try {
-            const result = await signInWithPopup(auth, provider);
+            const result = await signInWithPopup(auth, googleAuthProvider);
             setUser(result.user);
             navigate('/'); // トップページにリダイレクト
         } catch (err: any) {
