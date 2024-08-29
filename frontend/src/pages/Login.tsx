@@ -1,7 +1,8 @@
-// src/Login.js
 import { useState } from 'react';
+
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
+
 
 export default function Login(): JSX.Element {
     const [error, setError] = useState('');

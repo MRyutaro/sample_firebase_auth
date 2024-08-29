@@ -9,21 +9,15 @@ import Main from './pages/Main';
 
 export default function App(): JSX.Element {
   const [user, setUser] = useAtom<User | null>(userAtom);
-  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setLoading(false);
     });
 
     // コンポーネントがアンマウントされた時にリスナーを解除
     return () => unsubscribe();
   }, [setUser]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div>
