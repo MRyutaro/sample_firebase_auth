@@ -3,17 +3,19 @@ import { auth } from '../firebase';
 import { User } from 'firebase/auth';
 import { signOut } from 'firebase/auth';
 import { Avatar, Button, Container, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import { userAtom } from '../atoms/userAtom';
 
-
-export default function Main(): JSX.Element {
+export default function Index(): JSX.Element {
     const [user] = useAtom<User | null>(userAtom);
+    const navigate = useNavigate(); // useNavigateフックを使う
     console.log(user);
+    
     const handleLogout = async () => {
         try {
             await signOut(auth);
-            alert('ログアウト成功!');
+            navigate('/login');
         } catch (error) {
             console.error('ログアウト中にエラーが発生しました:', error);
         }

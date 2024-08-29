@@ -1,22 +1,22 @@
 import { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom'; // useNavigateをインポート
 import { auth, provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 import { Button, Container, Typography, Box, Card } from '@mui/material';
 import GoogleIcon from '@mui/icons-material/Google';
-import { useAtom } from 'jotai';
-
+import { useSetAtom } from 'jotai';
 import { userAtom } from '../atoms/userAtom';
-
 
 export default function Login(): JSX.Element {
     const [error, setError] = useState<string>('');
-    const [, setUser] = useAtom(userAtom);
+    const setUser = useSetAtom(userAtom);
+    const navigate = useNavigate();
 
     const handleGoogleLogin = async () => {
         try {
             const result = await signInWithPopup(auth, provider);
-            setUser(result.user); // Jotaiアトムにユーザー情報をセット
+            setUser(result.user);
+            navigate('/'); // トップページにリダイレクト
         } catch (err: any) {
             setError(err.message);
         }
