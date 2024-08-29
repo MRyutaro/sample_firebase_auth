@@ -1,5 +1,4 @@
-// src/App.tsx
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { auth } from './firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';

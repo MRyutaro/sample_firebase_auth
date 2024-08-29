@@ -2,11 +2,14 @@ import { useAtom } from 'jotai';
 import { auth } from '../firebase';
 import { User } from 'firebase/auth';
 import { signOut } from 'firebase/auth';
+import { Avatar, Button, Container, Typography } from '@mui/material';
+
 import { userAtom } from '../atoms/userAtom';
 
 
 export default function Main(): JSX.Element {
     const [user] = useAtom<User | null>(userAtom);
+    console.log(user);
     const handleLogout = async () => {
         try {
             await signOut(auth);
@@ -17,11 +20,21 @@ export default function Main(): JSX.Element {
     };
 
     return (
-        <div>
-            <h1>メインページ</h1>
-            <p>ログインしています</p>
-            {user?.displayName && <p>こんにちは、{user.displayName}さん！</p>}
-            <button onClick={handleLogout}>ログアウト</button>
-        </div>
+        <Container
+            sx={{
+                bgcolor: '#f0f8ff',
+                color: '#000',
+                height: '100vh',
+            }}
+        >
+            <Typography variant="h1">メインページ</Typography>
+            <Typography variant="body1">ログイン中のユーザー: {user?.displayName}</Typography>
+            <Typography variant="body1">メールアドレス: {user?.email}</Typography>
+            {/* アイコン */}
+            {
+                user?.photoURL && <Avatar src={user.photoURL} alt={user.displayName || ''} />
+            }
+            <Button variant="contained" onClick={handleLogout}>ログアウト</Button>
+        </Container>
     );
 }
