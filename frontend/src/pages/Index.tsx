@@ -24,9 +24,8 @@ export default function Index(): JSX.Element {
     return (
         <Container
             sx={{
-                bgcolor: '#f0f8ff',
-                color: '#000',
                 height: '100vh',
+                border: 1,
             }}
         >
             <Typography variant="h1">メインページ</Typography>
